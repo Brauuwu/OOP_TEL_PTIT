@@ -63,7 +63,7 @@ class Warehouse{
   }
 }
 
-public class Main {
+public class COLLECTION003 {
   public static void main(String[] args) {
     Warehouse x = new Warehouse();
     x.addProduct("milk",3,10);
