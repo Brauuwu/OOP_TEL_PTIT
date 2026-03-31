@@ -7,7 +7,9 @@ public class STRING004 {
         int t = sc.nextInt();
         sc.nextLine();
         while(t-- > 0){
-            System.out.println(sc.nextLine().length());
+            String s = sc.nextLine();
+            StringBuffer ns = new StringBuffer(s);
+            System.out.println(ns.length());
         }
         sc.close();
     }
