@@ -6,7 +6,7 @@ class NotContainVowelException extends Exception{
     }
 }
 
-public class Main {
+public class EXCEPTION006 {
     public static boolean check(String s) throws NotContainVowelException{
         for(int i=0; i<s.length(); i++){
             char c = s.charAt(i);
