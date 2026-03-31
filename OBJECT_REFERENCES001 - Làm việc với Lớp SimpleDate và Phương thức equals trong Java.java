@@ -33,7 +33,7 @@ class SimpleDate{
     }
 }
 
-public class Main {
+public class OBJECT_REFERENCES001 {
     public static void main(String[] args){
         SimpleDate sd = new SimpleDate(1, 2, 2000);
         String s1 = "heh";
