@@ -1,82 +1,56 @@
 import java.util.*;
-class Product{
-  private String name;
-  private int price,stock;
-  public Product(String name, int price, int stock) {
-    this.name = name;
-    this.price = price;
-    this.stock = stock;
-  }
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
-  public int getPrice() {
-    return price;
-  }
-  public void setPrice(int price) {
-    this.price = price;
-  }
-  public int getStock() {
-    return stock;
-  }
-  public void setStock(int stock) {
-    this.stock = stock;
-  }
-}
+import java.io.*;
+import java.math.*;
+
 class Warehouse{
-  ArrayList<Product> products;
-  public Warehouse(){
-    products = new ArrayList<>();
-  }
-  public void addProduct(String product, int price, int stock){
-    products.add((new Product(product, price, stock)));
-  }
-
-  public int stock(String product){
-    for(Product x:products){
-      if(x.getName().equals(product)) return x.getPrice();
+    private HashMap<String, Integer> productsPrice;
+    private HashMap<String, Integer> productsStock;
+    
+    public Warehouse(){
+        productsPrice = new HashMap<>();
+        productsStock = new HashMap<>();
     }
-    return -99;
-  }
-
-  public boolean take(String product){
-    for(Product x:products){
-      if(x.getName().equals(product) && x.getStock() >= 1){
-        x.setStock(x.getStock() - 1);
-        return true;
-      }
+    
+    public void addProduct(String product, int price, int stock){
+        productsStock.put(product, stock);
     }
-    return false;
-  }
-
-  public Set<String> products(){
-    Set<String> ans = new HashSet<String>();
-    for(int i = 0; i < products.size(); i++){
-      if(products.get(i).getStock() > 0){
-        ans.add(products.get(i).getName());
-      }
+    
+    public int price(String product){
+        return productsPrice.containsKey(product) ? productsPrice.get(product) : -99;
     }
-    return ans;
-  }
+    
+    public int stock(String product){
+        return productsStock.containsKey(product) ? productsStock.get(product) : 0;
+    }
+    
+    public boolean take(String product){
+        int current = stock(product);
+        productsStock.replace(product, (current - 1) >= 0 ? current - 1 : 0);
+        return current > 0;
+    }
+    
+    public Set<String> products(){
+        Set<String> s = new HashSet<>();
+        for(String key : productsStock.keySet()){
+            if(stock(key) > 0) s.add(key);
+        }
+        return s;
+    }
 }
 
-public class COLLECTION003 {
-  public static void main(String[] args) {
-    Warehouse x = new Warehouse();
-    x.addProduct("milk",3,10);
-    x.addProduct("coffee", 5, 6);
-    x.addProduct("buttermilk", 20, 2);
-    x.addProduct("yogurt", 2, 20);
-    x.take("buttermilk");
-    x.take("milk");
-    x.take("buttermilk");
-
-    Set<String> res = x.products();
-    for(String a:res){
-      System.out.println(a);
+public class COLLECTION003{
+    public static void main(String[] args){
+    	Warehouse warehouse = new Warehouse();
+        
+        warehouse.addProduct("milk", 3, 10);
+        warehouse.addProduct("coffee", 5, 1);
+        warehouse.addProduct("buttermilk", 2, 2);
+        warehouse.addProduct("yogurt", 2, 20);
+        
+        boolean take1 = warehouse.take("buttermilk");
+        boolean take2 = warehouse.take("milk");
+        boolean take3 = warehouse.take("buttermilk");
+        
+        warehouse.products().forEach(System.out::println);
     }
-  }
 }
